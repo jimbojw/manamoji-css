@@ -1,0 +1,3 @@
+[submodule "submodules/manamoji-discord"]
+	path = submodules/manamoji-discord
+	url = git@github.com:scryfall/manamoji-discord.git
