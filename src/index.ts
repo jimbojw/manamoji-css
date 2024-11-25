@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 
 import pkg from "../package.json";
 import { directoryToManamojis } from "./lib/directory-to-manamojis.js";
+import { formatLicenseComment } from "./lib/format-license-comment.js";
 import { Manamoji } from "./lib/manamoji.js";
 
 // Directory of this script, e.g. `__dirname`.
@@ -39,6 +40,14 @@ async function main() {
   const cssWriteStream = (
     await fs.open(path.resolve(DIST_DIR, "manamoji.css"), "w")
   ).createWriteStream();
+
+  // Prepend Manamoji license formatted as an `@license` comment.
+  const licenseText = await fs.readFile(
+    path.resolve(MANAMOJI_DIR, "LICENSE.md"),
+    "utf-8"
+  );
+  const licenseComment = formatLicenseComment(licenseText);
+  cssWriteStream.write(licenseComment);
 
   // Initialize CSS file with preamble.
   cssWriteStream.write(
