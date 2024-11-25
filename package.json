@@ -8,12 +8,23 @@
     "dev": "tsx watch src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jimbojw/manamoji-css.git"
+  },
+  "files": [
+    "./dist/**"
+  ],
   "keywords": [
     "manamoji",
     "css"
   ],
   "author": "jimbojw",
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jimbojw/manamoji-css/issues"
+  },
+  "homepage": "https://github.com/jimbojw/manamoji-css#readme",
   "dependencies": {
     "klaw": "4.1.0",
     "sharp": "0.33.5",
@@ -21,10 +32,13 @@
   },
   "devDependencies": {
     "@eslint/js": "9.15.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/git": "10.0.1",
     "@types/klaw": "3.0.6",
     "eslint": "9.15.0",
     "globals": "15.12.0",
     "jimp": "1.6.0",
+    "semantic-release": "24.2.0",
     "typescript": "5.7.2",
     "typescript-eslint": "8.15.0"
   }
