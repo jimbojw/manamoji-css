@@ -49,6 +49,10 @@ async function main() {
   const licenseComment = formatLicenseComment(licenseText);
   cssWriteStream.write(licenseComment);
 
+  // Include comment to signal generator.
+  const projectUrl = pkg.homepage ?? pkg.repository.url ?? "";
+  cssWriteStream.write(`/* ! ${pkg.name} v${pkg.version} | ${projectUrl} */\n`);
+
   // Initialize CSS file with preamble.
   cssWriteStream.write(
     await fs.readFile(path.resolve(SCRIPT_DIR, "preamble.css"))
@@ -59,7 +63,7 @@ async function main() {
     const { symbol, meta, pngDataUrl } = manamoji;
     cssWriteStream.write(
       [
-        `:where([data-manamoji="${symbol.toUpperCase()}" i]) {`,
+        `:where([data-manamoji~="${symbol.toUpperCase()}" i]) {`,
         `--manamoji-height: ${meta.height};`,
         `--manamoji-png: url("${pngDataUrl}");`,
         `--manamoji-width: ${meta.width};`,
