@@ -1,11 +1,12 @@
 :where([data-manamoji]) {
   --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
-  --_offset-top: var(--manamoji-offset-top, calc(1 / 16 * 1em));
+  --_font-size: var(--manamoji-font-size, 1.1em);
+  --_offset-top: var(--manamoji-offset-top, calc(1 / 16 * var(--_font-size)));
   --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
   --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
 
   display: inline-block;
-  font-size: 1.1em;
+  font-size: var(--_font-size);
   line-height: 1;
   overflow: hidden;
   padding-bottom: var(--_shadow-size);
@@ -28,6 +29,7 @@
     border-radius: 9999px;
     left: calc(-1 * var(--_shadow-size));
     margin-left: var(--_shadow-size);
+    opacity: var(--manamoji-shadow-opacity, 1);
     position: relative;
     top: var(--_shadow-size);
   }
