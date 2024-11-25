@@ -14,12 +14,7 @@ file from the project's `dist/` directory. Then include it in your HTML page via
 standard `<link>` syntax:
 
 ```html
-<html>
-  <head>
-    <!-- ... -->
-    <link rel="stylesheet" href="manamoji.css" />
-  </head>
-</html>
+<link rel="stylesheet" href="manamoji.css" />
 ```
 
 Then, to show a manamoji, give any element a `data-manamoji` data attribute,
@@ -61,27 +56,65 @@ describe the meaning of the symbol:
 This project exposes configurable attributes for the Manamoji symbols by way of
 CSS variables with the `--manamoji-` prefix.
 
-Table of available attributes:
-
-| CSS Variable                | Value type\*  | Default value                        | Description                                            |
-| --------------------------- | ------------- | ------------------------------------ | ------------------------------------------------------ |
-| `--manamoji-font-size`      | `<dimension>` | `1.1em`                              | Font size of the manamoji.                             |
-| `--manamoji-height`         | `<integer>`   | varies by symbol                     | Height of the image in pixels (without `px` suffix).   |
-| `--manamoji-offset-top`     | `<dimension>` | 1/16 of font size                    | Sets the `top` to align with surrounding text.         |
-| `--manamoji-png`            | `url()`       | varies by symbol                     | Base64 encoded `data:` URI of the image in PNG format. |
-| `--manamoji-shadow-color`   | `<color>`     | `rgba(0 0 0 / 90%)` OR `transparent` | Color of the shadow.                                   |
-| `--manamoji-shadow-opacity` | `<number>`    | `1`                                  | Opacity of the shadow.                                 |
-| `--manamoji-shadow-size`    | `<dimension>` | 1/16 of font size OR `0`             | Width of the shadow.                                   |
-| `--manamoji-width`          | `<integer>`   | varies by symbol                     | Width of the image in pixels (without `px` suffix).    |
-
-\* See MDN's guide on [CSS values and units](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units)
-
 Most manamojis are circular and opaque, such as normal mana symbols (`{w}`), the
 tap symbol (`{t}`), etc. For these, a thin drop-shadow will be shown.
 
-Other manamojis have tranparent backgrounds, such as the Ticket symbol (`{tk}`),
-or have irregular shape, like the half red mana symbol (`{hr}`). For these, the
-drop-shadow is not shown.
+Other manamojis have tranparent backgrounds, such as the Ticket symbol
+(<img src="https://raw.githubusercontent.com/scryfall/manamoji-discord/refs/heads/main/emojis/manatk.png" width="16"/>),
+or have irregular shape, like the half red mana symbol
+(<img src="https://raw.githubusercontent.com/scryfall/manamoji-discord/refs/heads/main/extras/manahr.png" width="16"/>).
+For these, the drop-shadow is not shown.
+
+For a description of the following value types, see MDN's guide on
+[CSS values and units](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units).
+
+**`--manamoji-font-size`**
+
+Font size of the manamoji.
+
+Value type: `<dimension>`. Default value: `1.1em`.
+
+**`--manamoji-height`**
+
+Height of the image in pixels (without `px` suffix).
+
+Value type: `<integer>`. Default value: varies by symbol.
+
+**`--manamoji-offset-top`**
+
+Sets the `top` to align with surrounding text.
+
+Value type: `<dimension>`. Default value: 1/16 of font size.
+
+**`--manamoji-png`**
+
+Base64 encoded `data:` URI of the image in PNG format.
+
+Value type: `url()`. Default value: varies by symbol.
+
+**`--manamoji-shadow-color`**
+
+Color of the shadow.
+
+Value type: `<color>`. Default value: `rgba(0 0 0 / 90%)` OR `transparent`.
+
+**`--manamoji-shadow-opacity`**
+
+Opacity of the shadow.
+
+Value type: `<number>`. Default value: `1`.
+
+**`--manamoji-shadow-size`**
+
+Width of the shadow.
+
+Valueu type: `<dimension>`. Default value: 1/16 of font size OR `0`.
+
+**`--manamoji-width`**
+
+Width of the image in pixels (without `px` suffix).
+
+Value type: `<integer>`. Default value: varies by symbol.
 
 ## Development
 
@@ -119,6 +152,10 @@ Open the `index.html` file in your browser to view the effects of your changes.
 
 ## LICENSE
 
-The source code for this project is licensed under the Apache-2.0 license. The
-generated output files are released to the public under the same spirit and
-motivation as the `manamoji-discord` project.
+The source code for this project is licensed under the Apache-2.0 license. See
+[LICENSE](./LICENSE).
+
+The generated `manamoji.css` file is released to the public under the same
+spirit and motivation as the scryfall/manamoji-discord project, and includes an
+`@license` header to this effect. See
+[scryfall/manamoji-discord/LICENSE.md](https://github.com/scryfall/manamoji-discord/blob/main/LICENSE.md)
