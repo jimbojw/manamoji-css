@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/jimbojw/manamoji-css/compare/v1.1.0...v1.1.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* Adding `--version-only` option on release config. ([dbb20bb](https://github.com/jimbojw/manamoji-css/commit/dbb20bb56083c1afc9a21dc458cbca8da73577df))
+* Using @semantic-release/npm to write version to package.json and @semantic-release/exec to perform build with analyzed version number. ([23675eb](https://github.com/jimbojw/manamoji-css/commit/23675ebd9a0e871b58c326e08f70ddc8e97fc9a8))
+
 # [1.1.0](https://github.com/jimbojw/manamoji-css/compare/v1.0.0...v1.1.0) (2024-11-25)
 
 

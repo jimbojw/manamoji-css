@@ -24,7 +24,7 @@
  * action of contract, tort or otherwise, arising from, out of or in connection
  * with the software or the use or other dealings in the software.
  */
-/* ! manamoji-css v1.0.0 | https://github.com/jimbojw/manamoji-css */
+/* ! manamoji-css v1.1.1 | https://github.com/jimbojw/manamoji-css */
 :where([data-manamoji]) {
   --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
   --_font-size: var(--manamoji-font-size, 1.1em);
