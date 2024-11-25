@@ -59,7 +59,7 @@ async function main() {
     const { symbol, meta, pngDataUrl } = manamoji;
     cssWriteStream.write(
       [
-        `:where([data-manamoji="${symbol.toUpperCase()}" i]) {`,
+        `:where([data-manamoji~="${symbol.toUpperCase()}" i]) {`,
         `--manamoji-height: ${meta.height};`,
         `--manamoji-png: url("${pngDataUrl}");`,
         `--manamoji-width: ${meta.width};`,
