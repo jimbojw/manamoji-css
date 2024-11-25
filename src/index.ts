@@ -86,6 +86,16 @@ async function main() {
       </head>
       <body>
         <h1>${pkg.name} v${pkg.version}</h1>
+        <h2>Inline test</h2>
+        <p>
+          Progenitus ${"wwuubbrrgg"
+            .split("")
+            .map(
+              (symbol) => `<abbr data-manamoji="${symbol}">{${symbol}}</abbr>`
+            )
+            .join("")}
+        <p>
+        <h2>Table of symbols</h2>
         <table>
           <thead>
             <tr>

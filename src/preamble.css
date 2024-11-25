@@ -1,9 +1,13 @@
 [data-manamoji] {
   display: inline-block;
+  font-size: 1.1em;
+  line-height: 1;
   overflow: hidden;
+  padding-bottom: var(--_shadow-size);
   position: relative;
+  top: 0.15em;
   white-space: nowrap;
-  width: calc(18 / 16 * 1em * var(--_aspect-ratio) + var(--_shadow-size));
+  width: calc(1em * var(--_aspect-ratio) + var(--_shadow-size));
   --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
   --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
   --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
@@ -15,7 +19,7 @@
     box-sizing: border-box;
     content: "\00a0";
     display: inline-block;
-    height: 1.1em;
+    height: 1em;
     left: calc(-1 * var(--_shadow-size));
     margin-left: var(--_shadow-size);
     position: relative;
@@ -31,7 +35,7 @@
     box-sizing: border-box;
     content: "\00a0";
     display: inline-block;
-    height: 1.1em;
+    height: 1em;
     left: var(--_shadow-size);
     position: absolute;
     top: 0;
