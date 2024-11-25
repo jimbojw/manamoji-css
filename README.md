@@ -4,6 +4,8 @@ Provides
 [scryfall/manamoji-discord](https://github.com/scryfall/manamoji-discord)
 images as a single, comprehensive CSS file.
 
+DEMO: https://jimbojw.github.io/manamoji-css/
+
 ## Quickstart
 
 To use this project, first download the
@@ -23,7 +25,9 @@ standard `<link>` syntax:
 Then, to show a manamoji, give any element a `data-manamoji` data attribute,
 with the value of the symbol to show.
 
-For example, to show a black mana symbol, you would set the attribute to
+For example, to show a black mana symbol
+(<img src="https://raw.githubusercontent.com/scryfall/manamoji-discord/refs/heads/main/emojis/manab.png" width="16"/>)
+you would set the attribute to
 `data-manamoji="b"` or `data-manamoji="B"`. The CSS selector is
 case-insensitive, so either upper or lowercase will work, and it is tolerant of
 whitespace before and/or after the symbol name (`data-manamoji=" b "` will work
