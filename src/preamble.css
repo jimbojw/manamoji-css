@@ -1,0 +1,38 @@
+[data-manamoji] {
+  display: inline-block;
+
+  &::before {
+    aspect-ratio: var(--manamoji-width) / var(--manamoji-height);
+    background-image: var(--manamoji-png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 115%;
+    border-radius: 9999px;
+    box-shadow: -1px 1px 0 rgba(0 0 0 / 90%);
+    box-sizing: border-box;
+    content: " ";
+    display: inline-block;
+    height: 1.1em;
+    margin-left: 1px;
+  }
+
+  &:is(
+      [data-manamoji="CHAOS" i],
+      [data-manamoji="D" i],
+      [data-manamoji="E" i],
+      [data-manamoji="H" i],
+      [data-manamoji="HR" i],
+      [data-manamoji="HW" i],
+      [data-manamoji="L" i],
+      [data-manamoji="P" i],
+      [data-manamoji="PW" i],
+      [data-manamoji="TK" i]
+    )::before {
+    box-shadow: none;
+    background-size: 100%;
+  }
+
+  & > * {
+    display: none;
+  }
+}
