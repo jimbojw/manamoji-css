@@ -2,7 +2,7 @@
 
 Provides
 [scryfall/manamoji-discord](https://github.com/scryfall/manamoji-discord)
-images, but as a single, comprehensive CSS file.
+images as a single, comprehensive CSS file.
 
 ## Quickstart
 
