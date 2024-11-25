@@ -11,25 +11,31 @@ import { fileURLToPath } from "url";
 // Directory of this script, e.g. `__dirname`.
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 
-// Plugins to run in both dry run and production modes.
-const COMMON_PLUGINS = [
-  ["@semantic-release/commit-analyzer"],
-  ["@semantic-release/release-notes-generator"],
-  ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
-];
+const isDryRun = process.argv.includes("--dry-run");
 
 // Config to use when `--dry-run` is present in the process argv.
 const DRY_RUN_CONFIG = {
   repositoryUrl: `file://${SCRIPT_DIR}`,
-  branches: ["*"],
-  plugins: COMMON_PLUGINS,
+  branches: [],
+  plugins: [
+    ["@semantic-release/commit-analyzer"],
+    ["@semantic-release/release-notes-generator"],
+    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
+    ["@semantic-release/npm", { npmPublish: false }],
+    [
+      "@semantic-release/exec",
+      {
+        verifyReleaseCmd: "BUILD_VERSION=${nextRelease.version} npm run build",
+      },
+    ],
+  ],
 };
 
 // Production config to run on CI (GitHub Actions).
 const PROD_CONFIG = {
   branches: ["main"],
   plugins: [
-    ...COMMON_PLUGINS,
+    ...DRY_RUN_CONFIG.plugins,
     [
       "@semantic-release/git",
       {
@@ -48,6 +54,4 @@ const PROD_CONFIG = {
 };
 
 // Export config matching presence of dry run flag.
-export default process.argv.includes("--dry-run")
-  ? DRY_RUN_CONFIG
-  : PROD_CONFIG;
+export default isDryRun ? DRY_RUN_CONFIG : PROD_CONFIG;
