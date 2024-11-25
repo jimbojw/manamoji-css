@@ -1,9 +1,12 @@
 [data-manamoji] {
   display: inline-block;
+  overflow: hidden;
   position: relative;
-  --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
-  --_shadow-size: var(--manamoji-shadow-size, 0.0625em);
+  white-space: nowrap;
+  width: calc(18 / 16 * 1em * var(--_aspect-ratio) + var(--_shadow-size));
   --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
+  --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
+  --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
 
   &::before {
     aspect-ratio: var(--_aspect-ratio);

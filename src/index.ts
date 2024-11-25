@@ -97,7 +97,7 @@ async function main() {
           <tbody>
           ${manamojis
             .map(({ symbol }) => {
-              const abbr = `<abbr data-manamoji="${symbol}"><span>{${symbol}}</span></abbr>`;
+              const abbr = `<abbr data-manamoji="${symbol}">{${symbol}}</abbr>`;
               return `
                 <tr>
                   <td>${symbol}</td>
