@@ -31,5 +31,5 @@ jobs:
         run: npm run lint
       - name: Clean dist/
         run: npm run clean
-      - name: Build
-        run: npm run build
+      - name: Release (dry-run)
+        run: npm run release:dry-run
