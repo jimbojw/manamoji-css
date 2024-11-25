@@ -14,6 +14,13 @@ import { directoryToManamojis } from "./lib/directory-to-manamojis.js";
 import { formatLicenseComment } from "./lib/format-license-comment.js";
 import { Manamoji } from "./lib/manamoji.js";
 
+if (process.env.BUILD_VERSION === "") {
+  throw new Error("BUILD_VERSION env variable cannot be an empty string");
+}
+
+// Determine version number to use.
+const VERSION = process.env.BUILD_VERSION ?? pkg.version;
+
 // Directory of this script, e.g. `__dirname`.
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 
@@ -51,7 +58,7 @@ async function main() {
 
   // Include comment to signal generator.
   const projectUrl = pkg.homepage ?? pkg.repository.url ?? "";
-  cssWriteStream.write(`/* ! ${pkg.name} v${pkg.version} | ${projectUrl} */\n`);
+  cssWriteStream.write(`/* ! ${pkg.name} v${VERSION} | ${projectUrl} */\n`);
 
   // Initialize CSS file with preamble.
   cssWriteStream.write(
@@ -84,7 +91,7 @@ async function main() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <link rel="stylesheet" href="./manamoji.css" />
-        <title>${pkg.name} v${pkg.version}</title>
+        <title>${pkg.name} v${VERSION}</title>
         <style>
           body {
             font-size: 16px;
@@ -98,7 +105,7 @@ async function main() {
         </style>
       </head>
       <body>
-        <h1>${pkg.name} v${pkg.version}</h1>
+        <h1>${pkg.name} v${VERSION}</h1>
         <h2>Inline test</h2>
         <p>
           Progenitus ${"wwuubbrrgg"
