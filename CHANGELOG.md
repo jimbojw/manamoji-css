@@ -1,3 +1,17 @@
+# [1.1.0](https://github.com/jimbojw/manamoji-css/compare/v1.0.0...v1.1.0) (2024-11-25)
+
+
+### Bug Fixes
+
+* Calc shadow size based on font size. ([cc39f6a](https://github.com/jimbojw/manamoji-css/commit/cc39f6ada7c76d774a030f0db5aa26e964268cc0))
+* Include generator comment in generated manamoji.css file. ([f3eb29a](https://github.com/jimbojw/manamoji-css/commit/f3eb29a1b20152f5889770e242e5306d8352b823))
+* Use CSS attribute token selector to be forgiving of whitespace in attrbitue value. ([8434840](https://github.com/jimbojw/manamoji-css/commit/8434840accedbece9a1a57cbb832723eec5e3105))
+
+
+### Features
+
+* Parameterize `--manamoji-font-size` and `--manamoji-shadow-opacity`. ([43642ca](https://github.com/jimbojw/manamoji-css/commit/43642ca289f1cf0ccf5329191b60b6b1bfb1e000))
+
 # 1.0.0 (2024-11-25)
 
 
