@@ -3,7 +3,7 @@
   --_font-size: var(--manamoji-font-size, 1.1em);
   --_offset-top: var(--manamoji-offset-top, calc(1 / 16 * var(--_font-size)));
   --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
-  --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
+  --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * var(--_font-size)));
 
   display: inline-block;
   font-size: var(--_font-size);
@@ -45,22 +45,22 @@
   }
 
   &:where(
-      [data-manamoji="100a" i],
-      [data-manamoji="100b" i],
-      [data-manamoji="1000000a" i],
-      [data-manamoji="1000000b" i],
-      [data-manamoji="1000000c" i],
-      [data-manamoji="1000000d" i],
-      [data-manamoji="CHAOS" i],
-      [data-manamoji="D" i],
-      [data-manamoji="E" i],
-      [data-manamoji="H" i],
-      [data-manamoji="HR" i],
-      [data-manamoji="HW" i],
-      [data-manamoji="L" i],
-      [data-manamoji="P" i],
-      [data-manamoji="PW" i],
-      [data-manamoji="TK" i]
+      [data-manamoji~="100A" i],
+      [data-manamoji~="100B" i],
+      [data-manamoji~="1000000A" i],
+      [data-manamoji~="1000000B" i],
+      [data-manamoji~="1000000C" i],
+      [data-manamoji~="1000000D" i],
+      [data-manamoji~="CHAOS" i],
+      [data-manamoji~="D" i],
+      [data-manamoji~="E" i],
+      [data-manamoji~="H" i],
+      [data-manamoji~="HR" i],
+      [data-manamoji~="HW" i],
+      [data-manamoji~="L" i],
+      [data-manamoji~="P" i],
+      [data-manamoji~="PW" i],
+      [data-manamoji~="TK" i]
     )::before {
     --_shadow-color: transparent;
     --_shadow-size: 0;
