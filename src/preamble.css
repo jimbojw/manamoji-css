@@ -1,25 +1,31 @@
-[data-manamoji] {
+:where([data-manamoji]) {
+  --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
+  --_offset-top: var(--manamoji-offset-top, calc(1 / 16 * 1em));
+  --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
+  --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
+
   display: inline-block;
   font-size: 1.1em;
   line-height: 1;
   overflow: hidden;
   padding-bottom: var(--_shadow-size);
   position: relative;
-  top: 0.15em;
+  top: calc(var(--_offset-top) + var(--_shadow-size));
   white-space: nowrap;
   width: calc(1em * var(--_aspect-ratio) + var(--_shadow-size));
-  --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
-  --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
-  --_shadow-size: var(--manamoji-shadow-size, calc(1 / 16 * 1em));
 
-  &::before {
+  &::before,
+  &::after {
     aspect-ratio: var(--_aspect-ratio);
-    background-color: var(--_shadow-color);
-    border-radius: 9999px;
     box-sizing: border-box;
     content: "\00a0";
     display: inline-block;
     height: 1em;
+  }
+
+  &::before {
+    background-color: var(--_shadow-color);
+    border-radius: 9999px;
     left: calc(-1 * var(--_shadow-size));
     margin-left: var(--_shadow-size);
     position: relative;
@@ -27,21 +33,16 @@
   }
 
   &::after {
-    aspect-ratio: var(--_aspect-ratio);
     background-image: var(--manamoji-png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
-    box-sizing: border-box;
-    content: "\00a0";
-    display: inline-block;
-    height: 1em;
     left: var(--_shadow-size);
     position: absolute;
     top: 0;
   }
 
-  &:is(
+  &:where(
       [data-manamoji="100a" i],
       [data-manamoji="100b" i],
       [data-manamoji="1000000a" i],
