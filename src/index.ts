@@ -49,6 +49,10 @@ async function main() {
   const licenseComment = formatLicenseComment(licenseText);
   cssWriteStream.write(licenseComment);
 
+  // Include comment to signal generator.
+  const projectUrl = pkg.homepage ?? pkg.repository.url ?? "";
+  cssWriteStream.write(`/* ! ${pkg.name} v${pkg.version} | ${projectUrl} */\n`);
+
   // Initialize CSS file with preamble.
   cssWriteStream.write(
     await fs.readFile(path.resolve(SCRIPT_DIR, "preamble.css"))
