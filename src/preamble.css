@@ -1,22 +1,46 @@
 [data-manamoji] {
   display: inline-block;
+  position: relative;
+  --_shadow-color: var(--manamoji-shadow-color, rgba(0 0 0 / 90%));
+  --_shadow-size: var(--manamoji-shadow-size, 0.0625em);
+  --_aspect-ratio: calc(var(--manamoji-width) / var(--manamoji-height));
 
   &::before {
-    aspect-ratio: var(--manamoji-width) / var(--manamoji-height);
+    aspect-ratio: var(--_aspect-ratio);
+    background-color: var(--_shadow-color);
+    border-radius: 9999px;
+    box-sizing: border-box;
+    content: "\00a0";
+    display: inline-block;
+    height: 1.1em;
+    left: calc(-1 * var(--_shadow-size));
+    margin-left: var(--_shadow-size);
+    position: relative;
+    top: var(--_shadow-size);
+  }
+
+  &::after {
+    aspect-ratio: var(--_aspect-ratio);
     background-image: var(--manamoji-png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 115%;
-    border-radius: 9999px;
-    box-shadow: -1px 1px 0 rgba(0 0 0 / 90%);
+    background-size: 100%;
     box-sizing: border-box;
-    content: " ";
+    content: "\00a0";
     display: inline-block;
     height: 1.1em;
-    margin-left: 1px;
+    left: var(--_shadow-size);
+    position: absolute;
+    top: 0;
   }
 
   &:is(
+      [data-manamoji="100a" i],
+      [data-manamoji="100b" i],
+      [data-manamoji="1000000a" i],
+      [data-manamoji="1000000b" i],
+      [data-manamoji="1000000c" i],
+      [data-manamoji="1000000d" i],
       [data-manamoji="CHAOS" i],
       [data-manamoji="D" i],
       [data-manamoji="E" i],
@@ -28,8 +52,8 @@
       [data-manamoji="PW" i],
       [data-manamoji="TK" i]
     )::before {
-    box-shadow: none;
-    background-size: 100%;
+    --_shadow-color: transparent;
+    --_shadow-size: 0;
   }
 
   & > * {
