@@ -2,17 +2,19 @@
  * @license SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @fileoverview Generates the manamoji.css file from manamoji-discord source.
+ * @fileoverview Download Scryfall mana symbology.
  */
 
 import fs from "fs/promises";
+import { JSDOM } from "jsdom";
 import path from "path";
+import { ElementNode, parse, RootNode } from "svg-parser";
 import { fileURLToPath } from "url";
 
 import pkg from "../package.json";
-import { directoryToManamojis } from "./lib/directory-to-manamojis.js";
-import { formatLicenseComment } from "./lib/format-license-comment.js";
-import { Manamoji } from "./lib/manamoji.js";
+import { compareSymbols } from "./lib/compare-symbols.js";
+import { parseViewBox } from "./lib/parse-view-box.js";
+import { SymbologyResponse, SymbologySymbol } from "./types/symbology.js";
 
 if (process.env.BUILD_VERSION === "") {
   throw new Error("BUILD_VERSION env variable cannot be an empty string");
@@ -27,34 +29,58 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 // Project root directory.
 const PROJECT_DIR = path.resolve(SCRIPT_DIR, "..");
 
-// Manamoji input directory.
-const MANAMOJI_DIR = path.resolve(
-  PROJECT_DIR,
-  "submodules",
-  "manamoji-discord"
-);
-
 // Output directory.
 const DIST_DIR = path.resolve(PROJECT_DIR, "dist");
 
-async function main() {
-  // Find, read and process manamoji files.
-  const manamojis: Manamoji[] = await directoryToManamojis(MANAMOJI_DIR);
+interface SymbolContent extends SymbologySymbol {
+  svgBuffer: ArrayBuffer;
+  svgFilename: string;
+  svgRootNode: RootNode;
+  symbolName: string;
+}
 
+async function main() {
   // Create dist dir if it doesn't already exist.
   await fs.mkdir(DIST_DIR, { recursive: true });
 
+  console.log("Downloading symbology...");
+
+  // Download the Scyfall Symbology.
+  const symbologyResponse = await fetch("https://api.scryfall.com/symbology");
+  const json = (await symbologyResponse.json()) as SymbologyResponse;
+
+  // Download all symbols.
+  console.log("Downloading symbol SVG files...");
+  const symbols: SymbolContent[] = await Promise.all(
+    json.data.map(async (symbol) => {
+      const svgFilename = symbol.svg_uri.match(/[^/]+$/)?.[0];
+
+      if (!svgFilename) {
+        throw new Error("could not parse filename from svg uri");
+      }
+
+      const symbolName = svgFilename.match(/(.*)\.svg$/)?.[1];
+
+      if (!symbolName) {
+        throw new Error("colud not parse symbol name from filename");
+      }
+
+      const svgResponse = await fetch(symbol.svg_uri);
+      const svgBuffer = await svgResponse.arrayBuffer();
+
+      const text = new TextDecoder("utf-8").decode(new Uint8Array(svgBuffer));
+      const svgRootNode = parse(text);
+
+      return { ...symbol, svgBuffer, svgFilename, symbolName, svgRootNode };
+    })
+  );
+
+  symbols.sort(({ symbolName: a }, { symbolName: b }) => compareSymbols(a, b));
+
+  console.log("Initializing manamoji.css file...");
   const cssWriteStream = (
     await fs.open(path.resolve(DIST_DIR, "manamoji.css"), "w")
   ).createWriteStream();
-
-  // Prepend Manamoji license formatted as an `@license` comment.
-  const licenseText = await fs.readFile(
-    path.resolve(MANAMOJI_DIR, "LICENSE.md"),
-    "utf-8"
-  );
-  const licenseComment = formatLicenseComment(licenseText);
-  cssWriteStream.write(licenseComment);
 
   // Include comment to signal generator.
   const projectUrl = pkg.homepage ?? pkg.repository.url ?? "";
@@ -66,14 +92,38 @@ async function main() {
   );
 
   // Write the rest of the Manamoji content to the CSS file.
-  for (const manamoji of manamojis) {
-    const { symbol, meta, pngDataUrl } = manamoji;
+  console.log("Writing symbol content rules...");
+  for (const symbol of symbols) {
+    const { symbolName, svgRootNode, svgBuffer } = symbol;
+
+    const svgNode = svgRootNode.children[0] as ElementNode;
+    const viewBox = svgNode.properties?.["viewBox"] as string;
+    const { width, height } = parseViewBox(viewBox);
+
+    const svgBase64 = Buffer.from(svgBuffer).toString("base64");
+    const svgDataUrl = `data:image/svg+xml;base64,${svgBase64}`;
+
+    // Allow either the name of the file, or the symbol text to be used.
+    const symbolStrings = [symbol.symbol.slice(1, -1), symbolName].map(
+      (symbolString) => symbolString.toUpperCase()
+    );
+
+    // Allow naked symbol strings, or `{}` wrapped.
+    symbolStrings.push(
+      ...symbolStrings.map((symbolString) => `{${symbolString}}`)
+    );
+
+    // Create data attribute selectors from the unique values.
+    const selectors = [...new Set(symbolStrings)].map(
+      (symbolString) => `[data-manamoji~="${symbolString}" i]`
+    );
+
     cssWriteStream.write(
       [
-        `:where([data-manamoji~="${symbol.toUpperCase()}" i]) {`,
-        `--manamoji-height: ${meta.height};`,
-        `--manamoji-png: url("${pngDataUrl}");`,
-        `--manamoji-width: ${meta.width};`,
+        `:where(${selectors.join(", ")}) {`,
+        `--manamoji-height: ${height};`,
+        `--manamoji-svg: url("${svgDataUrl}");`,
+        `--manamoji-width: ${width};`,
         "}\n",
       ].join("\n")
     );
@@ -82,72 +132,38 @@ async function main() {
   // Wait for the CSS file to finish writing.
   await new Promise((resolve) => cssWriteStream.close(resolve));
 
-  // Create an HTML file for testing.
-  const html = ` 
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <link rel="stylesheet" href="./manamoji.css" />
-        <title>${pkg.name} v${VERSION}</title>
-        <style>
-          body {
-            font-size: 16px;
-          }
-          th {
-            text-align: left;
-          }
-          td:last-child {
-            font-size: 64px;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>${pkg.name} v${VERSION}</h1>
-        <h2>Inline test</h2>
-        <p>
-          Progenitus ${"wwuubbrrgg"
-            .split("")
-            .map(
-              (symbol) => `<abbr data-manamoji="${symbol}">{${symbol}}</abbr>`
-            )
-            .join("")}
-        <p>
-        <h2>Table of symbols</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>symbol</th>
-              <th>code</th>
-              <th>rendered</th>
-            </tr>
-          </thead>
-          <tbody>
-          ${manamojis
-            .map(({ symbol }) => {
-              const abbr = `<abbr data-manamoji="${symbol}">{${symbol}}</abbr>`;
-              return `
-                <tr>
-                  <td>${symbol}</td>
-                  <td>
-                    <code>
-                      ${abbr.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
-                    </code>
-                  </td>
-                  <td>${abbr}</td>
-                </tr>
-              `;
-            })
-            .join("\n")}
-          </tbody>
-        </table>
-      </body>
-    </html>
-  `;
+  console.log("Generating HTML file for testing...");
+  const dom = new JSDOM(
+    await fs.readFile(path.resolve(SCRIPT_DIR, "template.html"))
+  );
+  const doc = dom.window.document;
+  const body = doc.body;
 
-  await fs.writeFile(path.resolve(DIST_DIR, "index.html"), html);
+  const title = `${pkg.name} v${VERSION}`;
+  doc.querySelector("head title")!.textContent = title;
+  body.querySelector("body h1")!.textContent = title;
+
+  const tbody = body.querySelector("tbody")!;
+
+  for (const symbol of symbols) {
+    const abbr = doc.createElement("abbr");
+    abbr.setAttribute("data-manamoji", symbol.symbolName);
+    abbr.textContent = symbol.symbol;
+
+    const tr = doc.createElement("tr");
+    tr.innerHTML = "<td></td><td><code></code></td><td></td>";
+
+    tr.querySelector("td:first-child")!.textContent = symbol.symbolName;
+    tr.querySelector("code")!.textContent = abbr.outerHTML;
+    tr.querySelector("td:last-child")!.appendChild(abbr);
+
+    tbody.appendChild(tr);
+  }
+
+  console.log("Writing HTML file...");
+  await fs.writeFile(path.resolve(DIST_DIR, "index.html"), dom.serialize());
+
+  console.log("DONE!");
 }
 
 main().catch((err) => {

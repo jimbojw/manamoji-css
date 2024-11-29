@@ -35,7 +35,7 @@
   }
 
   &::after {
-    background-image: var(--manamoji-png);
+    background-image: var(--manamoji-svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
