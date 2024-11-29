@@ -118,16 +118,8 @@ Value type: `<integer>`. Default value: varies by symbol.
 
 ## Development
 
-After you check out this git repository, you'll need to init and udpate git
-submodules:
-
-```sh
-git submodule init ; git submodule update
-```
-
-This will download the `manamoji-discord` content.
-
-Next, with Node installed, install dependencies:
+After you check out this git repository, with Node installed, install
+dependencies:
 
 ```sh
 npm install
@@ -156,6 +148,5 @@ The source code for this project is licensed under the Apache-2.0 license. See
 [LICENSE](./LICENSE).
 
 The generated `manamoji.css` file is released to the public under the same
-spirit and motivation as the scryfall/manamoji-discord project, and includes an
-`@license` header to this effect. See
+spirit and motivation as the scryfall/manamoji-discord project. See
 [scryfall/manamoji-discord/LICENSE.md](https://github.com/scryfall/manamoji-discord/blob/main/LICENSE.md)
