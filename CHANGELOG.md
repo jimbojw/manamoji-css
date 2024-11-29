@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/jimbojw/manamoji-css/compare/v1.1.1...v1.2.0) (2024-11-29)
+
+
+### Features
+
+* Upgrade images from png to svg. ([f989d77](https://github.com/jimbojw/manamoji-css/commit/f989d7784b2d839168a8cef45e746df16015b060))
+
 ## [1.1.1](https://github.com/jimbojw/manamoji-css/compare/v1.1.0...v1.1.1) (2024-11-25)
 
 
