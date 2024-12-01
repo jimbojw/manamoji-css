@@ -8,7 +8,6 @@
 import fs from "fs/promises";
 import { JSDOM } from "jsdom";
 import path from "path";
-import { ElementNode, parse, RootNode } from "svg-parser";
 import { fileURLToPath } from "url";
 
 import pkg from "../package.json";
@@ -35,8 +34,8 @@ const DIST_DIR = path.resolve(PROJECT_DIR, "dist");
 interface SymbolContent extends SymbologySymbol {
   svgBuffer: ArrayBuffer;
   svgFilename: string;
-  svgRootNode: RootNode;
   symbolName: string;
+  svgDoc: Document;
 }
 
 async function main() {
@@ -68,10 +67,12 @@ async function main() {
       const svgResponse = await fetch(symbol.svg_uri);
       const svgBuffer = await svgResponse.arrayBuffer();
 
-      const text = new TextDecoder("utf-8").decode(new Uint8Array(svgBuffer));
-      const svgRootNode = parse(text);
+      const svgXml = new TextDecoder("utf-8").decode(new Uint8Array(svgBuffer));
 
-      return { ...symbol, svgBuffer, svgFilename, symbolName, svgRootNode };
+      const svgDom = new JSDOM(svgXml);
+      const svgDoc = svgDom.window.document;
+
+      return { ...symbol, svgBuffer, svgFilename, symbolName, svgDoc };
     })
   );
 
@@ -94,10 +95,11 @@ async function main() {
   // Write the rest of the Manamoji content to the CSS file.
   console.log("Writing symbol content rules...");
   for (const symbol of symbols) {
-    const { symbolName, svgRootNode, svgBuffer } = symbol;
+    const { symbolName, svgBuffer, svgDoc } = symbol;
 
-    const svgNode = svgRootNode.children[0] as ElementNode;
-    const viewBox = svgNode.properties?.["viewBox"] as string;
+    const viewBox = svgDoc
+      .querySelector("svg")
+      ?.getAttribute("viewBox") as string;
     const { width, height } = parseViewBox(viewBox);
 
     const svgBase64 = Buffer.from(svgBuffer).toString("base64");
