@@ -45,21 +45,25 @@
   }
 
   &:where(
-      [data-manamoji~="100A" i],
-      [data-manamoji~="100B" i],
-      [data-manamoji~="1000000A" i],
-      [data-manamoji~="1000000B" i],
-      [data-manamoji~="1000000C" i],
-      [data-manamoji~="1000000D" i],
+      [data-manamoji~="{CHAOS}" i],
       [data-manamoji~="CHAOS" i],
+      [data-manamoji~="{D}" i],
       [data-manamoji~="D" i],
+      [data-manamoji~="{E}" i],
       [data-manamoji~="E" i],
+      [data-manamoji~="{H}" i],
       [data-manamoji~="H" i],
+      [data-manamoji~="{HR}" i],
       [data-manamoji~="HR" i],
+      [data-manamoji~="{HW}" i],
       [data-manamoji~="HW" i],
+      [data-manamoji~="{L}" i],
       [data-manamoji~="L" i],
+      [data-manamoji~="{P}" i],
       [data-manamoji~="P" i],
+      [data-manamoji~="{PW}" i],
       [data-manamoji~="PW" i],
+      [data-manamoji~="{TK}" i],
       [data-manamoji~="TK" i]
     )::before {
     --_shadow-color: transparent;

@@ -31,7 +31,6 @@
   "homepage": "https://github.com/jimbojw/manamoji-css",
   "dependencies": {
     "jsdom": "25.0.1",
-    "svg-parser": "2.0.4",
     "tsx": "4.19.2"
   },
   "devDependencies": {
