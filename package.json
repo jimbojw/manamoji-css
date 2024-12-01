@@ -1,6 +1,6 @@
 {
   "name": "manamoji-css",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Provides manamoji-discord images as a single CSS file.",
   "type": "module",
   "scripts": {

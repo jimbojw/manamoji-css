@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/jimbojw/manamoji-css/compare/v1.2.0...v1.2.1) (2024-12-01)
+
+
+### Bug Fixes
+
+* Remove a, b, c, and d suffixed manamojis. Add bracketed variants. ([99a552c](https://github.com/jimbojw/manamoji-css/commit/99a552cc28daba346f9c5f58d9cfd3d7dc310627))
+
 # [1.2.0](https://github.com/jimbojw/manamoji-css/compare/v1.1.1...v1.2.0) (2024-11-29)
 
 
