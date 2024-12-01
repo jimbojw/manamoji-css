@@ -1,8 +1,8 @@
 # manamoji-css
 
-Provides
-[scryfall/manamoji-discord](https://github.com/scryfall/manamoji-discord)
-images as a single, comprehensive CSS file.
+Provides SVG images from
+[api.scryfall.com/symbology](https://api.scryfall.com/symbology) as a single,
+comprehensive CSS file.
 
 DEMO: https://jimbojw.github.io/manamoji-css/
 
