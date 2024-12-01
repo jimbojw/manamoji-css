@@ -1,6 +1,6 @@
 # Release from main branch workflow.
 
-name: Main branch check, build and release
+name: Build and release
 
 on:
   push:
